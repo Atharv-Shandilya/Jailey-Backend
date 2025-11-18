@@ -65,8 +65,10 @@ export class EmployeeRepo {
       where: { user_id: userId },
     });
   }
-  static async getEmpNameWithId(userId: string): Promise<{fullname:string}>{
-    return await prisma.user.findFirstOrThrow({where: {id: userId, Employee: {isNot: null}}, select: {fullname: true}})
+  static async getEmpNameWithId(employeeId: string): Promise<{fullname:string}>{
+    const employeeName =  await prisma.employee.findFirstOrThrow({where: {id: employeeId},select: {User: {select: {fullname: true}}}})
+    
+    return {fullname: employeeName.User.fullname}
   }
   static async getEmployees(): Promise<
     (Employee & { User: { fullname: string; phone_number: string } })[]

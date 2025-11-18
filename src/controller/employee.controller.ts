@@ -66,12 +66,12 @@ export async function getEmpNameWithId(
   req: Request,
   res: Response
 ){
-  const userId = req.params.id;
+  const empId = req.params.id;
 
-  if(!userId)
+  if(!empId)
      throw new AppError("invalid credentials", "BAD_REQUEST", 400);
   
-  const empName = await EmployeeRepo.getEmpNameWithId(userId)
+  const empName = await EmployeeRepo.getEmpNameWithId(empId)
 
   return res.status(200).json({
     data: empName,
