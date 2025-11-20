@@ -19,7 +19,6 @@ export class EmployeeRepo {
     pin: string;
   }): Promise<{
     id: string;
-    userId: string;
     fullname: string;
     phoneNumber: string;
     role: string;
@@ -40,13 +39,12 @@ export class EmployeeRepo {
         role: true,
         isEmployed: true,
         id: true,
-        User: { select: { id: true, fullname: true, phone_number: true } },
+        User: { select: { fullname: true, phone_number: true } },
       },
     });
 
     return {
       id: employee.id,
-      userId: employee.User.id,
       fullname: employee.User.fullname,
       phoneNumber: employee.User.phone_number,
       isEmployed: employee.isEmployed,
@@ -60,16 +58,15 @@ export class EmployeeRepo {
     });
   }
 
-  static async getEmployeeWithId(userId: string): Promise<Employee> {
+  static async getEmployeeWithId(
+    userId: string
+  ): Promise<Employee & { User: { fullname: string } }> {
     return await prisma.employee.findUniqueOrThrow({
       where: { user_id: userId },
+      include: { User: { select: { fullname: true } } },
     });
   }
-  static async getEmpNameWithId(employeeId: string): Promise<{fullname:string}>{
-    const employeeName =  await prisma.employee.findFirstOrThrow({where: {id: employeeId},select: {User: {select: {fullname: true}}}})
-    
-    return {fullname: employeeName.User.fullname}
-  }
+
   static async getEmployees(): Promise<
     (Employee & { User: { fullname: string; phone_number: string } })[]
   > {

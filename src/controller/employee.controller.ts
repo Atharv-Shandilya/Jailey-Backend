@@ -62,21 +62,17 @@ export async function getEmployeeWithPhno(
   });
 }
 
-export async function getEmpNameWithId( 
-  req: Request,
-  res: Response
-){
+export async function getEmpNameWithId(req: Request, res: Response) {
   const empId = req.params.id;
 
-  if(!empId)
-     throw new AppError("invalid credentials", "BAD_REQUEST", 400);
-  
-  const empName = await EmployeeRepo.getEmpNameWithId(empId)
+  if (!empId) throw new AppError("invalid credentials", "BAD_REQUEST", 400);
+
+  const empName = await EmployeeRepo.getEmployeeWithId(empId);
 
   return res.status(200).json({
-    data: empName,
-    message: "Employee name fetch succesful"
-  })
+    data: empName.User.fullname,
+    message: "Employee name fetch succesful",
+  });
 }
 
 export async function getEmployees(
@@ -133,30 +129,30 @@ export async function resetPassword(
   });
 }
 
-export async function setGeneralRate( 
+export async function setGeneralRate(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-    const rate = req.body.rate
-    if (!rate) throw new AppError("invalid credentials", "BAD_REQUEST", 400);
+  const rate = req.body.rate;
+  if (!rate) throw new AppError("invalid credentials", "BAD_REQUEST", 400);
 
-    const generalRate = await EmployeeRepo.setGeneralRate(rate)
+  const generalRate = await EmployeeRepo.setGeneralRate(rate);
 
-    return res.status(201).json({
-      data: generalRate,
-      message: "New rate set"
-    })
-  }
+  return res.status(201).json({
+    data: generalRate,
+    message: "New rate set",
+  });
+}
 export async function getGeneralRate(
   req: Request,
   res: Response,
-  next: NextFunction 
-){
-    const generalRate = await EmployeeRepo.getGeneralRate()
+  next: NextFunction
+) {
+  const generalRate = await EmployeeRepo.getGeneralRate();
 
-    return res.status(200).json({
-      data: generalRate,
-      message: "fetched general rate"
-    })
-  }
+  return res.status(200).json({
+    data: generalRate,
+    message: "fetched general rate",
+  });
+}
