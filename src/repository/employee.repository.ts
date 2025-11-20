@@ -58,13 +58,25 @@ export class EmployeeRepo {
     });
   }
 
-  static async getEmployeeWithId(
-    userId: string
-  ): Promise<Employee & { User: { fullname: string } }> {
+  static async getEmployeeWithId(userId: string): Promise<Employee> {
     return await prisma.employee.findUniqueOrThrow({
       where: { user_id: userId },
-      include: { User: { select: { fullname: true } } },
     });
+  }
+
+  static async getEmployeeNameWithId(empid: string): Promise<string> {
+    const emp = await prisma.employee.findUniqueOrThrow({
+      where: { id: empid },
+      select: {
+        User: {
+          select: {
+            fullname: true,
+          },
+        },
+      },
+    });
+
+    return emp.User.fullname;
   }
 
   static async getEmployees(): Promise<

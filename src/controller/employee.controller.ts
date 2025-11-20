@@ -67,10 +67,10 @@ export async function getEmpNameWithId(req: Request, res: Response) {
 
   if (!empId) throw new AppError("invalid credentials", "BAD_REQUEST", 400);
 
-  const empName = await EmployeeRepo.getEmployeeWithId(empId);
+  const empName = await EmployeeRepo.getEmployeeNameWithId(empId);
 
   return res.status(200).json({
-    data: empName.User.fullname,
+    data: empName,
     message: "Employee name fetch succesful",
   });
 }
