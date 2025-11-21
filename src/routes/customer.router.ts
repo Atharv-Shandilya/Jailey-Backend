@@ -13,7 +13,7 @@ const router = express.Router();
 router.route("/customer").post(tryCatch(registerCustomer));
 router.route("/customers").get(tryCatch(getCustomers));
 router.route("/customer/:id").get(tryCatch(getCustomer));
-router.route("/customer/:id").patch(tryCatch(updateCustomer));
+router.route("/customer/:cusid").patch(tryCatch(updateCustomer));
 router.route("/customer/phno/:phno").get(tryCatch(getCustomerWithPhno))
 
 export default router;

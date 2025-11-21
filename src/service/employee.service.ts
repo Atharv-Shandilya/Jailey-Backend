@@ -51,6 +51,8 @@ export class EmployeeService {
     if (!isValidPin)
       throw new AppError("invalid credentials", "BAD_REQUEST", 400);
 
+    if(!isEmployed)
+      throw new AppError("no longer a employee", "NOT_EMPLOYED", 400);
     return {
       id,
       role,

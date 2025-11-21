@@ -66,16 +66,14 @@ export class CustomerService {
   }
 
   static async updateCustomer({
-    userId,
+    customerId,
     data,
   }: {
-    userId: string;
+    customerId: string;
     data: Partial<Pick<Customer, "address" | "subsrate" | "subs_status">>;
   }): Promise<Customer | null> {
-    const customer: Customer = await CustomerRepo.getCustomer(userId);
-    if (!customer) throw new AppError("not found", "BAD_REQUEST", 400);
 
-    return await CustomerRepo.updateCustomer({ customerId: customer.id, data });
+    return await CustomerRepo.updateCustomer({ customerId, data });
   }
   static async getCustomerWithPhno(phoneNumber: string) {
     return await CustomerRepo.getUser(phoneNumber);

@@ -68,13 +68,13 @@ export async function updateCustomer(
   res: Response,
   next: NextFunction
 ) {
-  const { id } = req.params;
-  if (!id) throw new AppError("invalid input", "BAD_REQUEST", 400);
+  const { cusid } = req.params;
+  if (!cusid) throw new AppError("invalid input", "BAD_REQUEST", 400);
 
   const { address, subsrate, subs_status } = req.body;
 
   const customer = await CustomerService.updateCustomer({
-    userId: id,
+    customerId: cusid,
     data: { address, subs_status, subsrate },
   });
 

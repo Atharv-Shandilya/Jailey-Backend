@@ -102,6 +102,7 @@ export class CustomerRepo {
       include: {
         Customer: {
           select: {
+            id: true,
             address: true,
             balance: true,
             last_active: true,
@@ -119,6 +120,7 @@ export class CustomerRepo {
   static async getCustomer(userId: string): Promise<Customer> {
     return await prisma.customer.findUniqueOrThrow({
       where: { user_id: userId },
+      include: {User: {select: {fullname: true, phone_number: true}}}
     });
   }
 
